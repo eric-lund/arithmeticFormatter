@@ -21,22 +21,26 @@ def remove_spaces(problems):
         
 def get_operands(problems_without_spaces):
     operators = ['+','-']
-    operands = []
-    left_operand = []
-    right_operand = []
+    operands_list = [[] for i in range(len(problems_without_spaces))]
+    i = 0
     for d in problems_without_spaces:
         for o in operators:
             index = d.find(o)
             if index > 0:
-                operands.append(
-                    {'left_operand': d[0:index], 
-                    'right_operand': d[index + 1:], 
-                    'operator': d[index]
-                    }
-                )
-                
-    return operands
-    
+                operands_list[i].append(d[0:index])
+                operands_list[i].append(d[index + 1:])
+                operands_list[i].append(d[index])
+                i += 1
+
+    return operands_list
+
+def operand_length_check(operands):
+    # combined_operands = dict(operands,)
+    # combined_operands = filter(lambda o: operands['operator'] != 'operator', operands.item)
+    for key, val in operands.item():
+        pass
+    print(operands)
+
 
 def digit_check(operands):
     for o in operands:
@@ -48,10 +52,18 @@ def arithmetic_arranger(problems, show_answers=False):
         raise ValueError('Error: Too many problems.')
 
     operator_check(problems)
-
     problems_without_spaces = remove_spaces(problems)
+    
+    operands_dictionary = get_operands(problems_without_spaces)
 
+    # print(type(operands))
+    # operand_length_check(get_operands(problems_without_spaces))
     print(problems_without_spaces)
+    print(operands_dictionary)
+
+    #print(operands)    
+
+
     
 
 
