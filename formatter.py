@@ -1,4 +1,9 @@
+def problem_limit_check(list_length):
+    if list_length > 5:
+        raise ValueError('Error: Too many problems.')
+
 def operator_check(problems):
+    #rewrite this to use new listy list
     n = 0    
     for i in problems:
         if '+' in problems[n]:
@@ -9,6 +14,7 @@ def operator_check(problems):
             raise ValueError("Error: Operator must be '+' or '-'.")
         n += 1    
 
+# needed??
 def remove_spaces(problems):
     no_spaces = str.maketrans({' ': ''})
     result = []
@@ -19,28 +25,18 @@ def remove_spaces(problems):
     
     return result
         
-def get_operands(problems_without_spaces):
-    operators = ['+','-']
-    operands_list = [[] for i in range(len(problems_without_spaces))]
-    i = 0
-    for d in problems_without_spaces:
-        for o in operators:
-            index = d.find(o)
-            if index > 0:
-                operands_list[i].append(d[0:index])
-                operands_list[i].append(d[index + 1:])
-                operands_list[i].append(d[index])
-                i += 1
+def get_operands(problems):
+    problem_split = []
+    for i in problems:
+        problem_split.append(i.split())
 
-    return operands_list
+    return problem_split
 
-def operand_length_check(operands):
-    # combined_operands = dict(operands,)
-    # combined_operands = filter(lambda o: operands['operator'] != 'operator', operands.item)
-    for key, val in operands.item():
-        pass
-    print(operands)
-
+def operand_length_check(operands_list):
+    for index, value in operands_list:
+        if len(index) > 4 or len(value) > 4:
+            raise ValueError('Error: Numbers cannot be more than four digits.')
+        else: return
 
 def digit_check(operands):
     for o in operands:
@@ -48,38 +44,41 @@ def digit_check(operands):
             raise ValueError('Error: Numbers must only contain digits.')
 
 def arithmetic_arranger(problems, show_answers=False):
-    if len(problems) > 5:
-        raise ValueError('Error: Too many problems.')
 
-    operator_check(problems)
-    problems_without_spaces = remove_spaces(problems)
-    
-    operands_dictionary = get_operands(problems_without_spaces)
+    problems_without_spaces = remove_spaces(problems)  # needed??
+    operands_list = get_operands(problems_without_spaces) #needed?
 
-    # print(type(operands))
-    # operand_length_check(get_operands(problems_without_spaces))
-    print(problems_without_spaces)
-    print(operands_dictionary)
+    problem_list = get_operands(problems)
 
-    #print(operands)    
+    # Error checks
+    problem_limit_check(len(problems))
+    operator_check(problems)    # rewrite this one
 
 
-    
+    # digit_count = len(operands_list[0][0]) + len(operands_list[0][1])
+    # for i in operands_list:
+    # line1 = '{:>9}    {:>8}\n'.format(operands_list[0][0], operands_list[1][0])
+    # line2 = '{:>8}    {:>8}\n'.format(operands_list[0][1], operands_list[1][1])
+    # print(line1, line2)
 
 
-    
+    problem_list = get_operands(problems)
+    operands_list = get_operands(problems)  # duplicate naming
+    for index, value in enumerate(operands_list):
+        if '+' in value:
+            operands_list[index].remove('+')
+        if '-' in value:
+            operands_list[index].remove('-')
 
-    # number_check(get_operands(problems_without_spaces))
+    operands_len_digits = [[len(item) for item in element] for element in operands_list]
 
+    operands_max = list(map(max, operands_len_digits))
 
-    # problem_dict = {
-    #     "first_number": first_number,
-    #     "second_number": second_number,
-    #     "operand": operand
-    #     }
+    for index, value in enumerate(problem_list):
+        problem_list[index].append(operands_max[index])
 
-
-    
+    operand_length_check(operands_list)
+    # print(problem_list)   
     # return problems
 
 problems = ["32 + 698", "3801 - 2", "45 + 43", "123 + 49"]
@@ -88,5 +87,23 @@ problems = ["32 + 698", "3801 - 2", "45 + 43", "123 + 49"]
 # operator_check(problems)
 # remove_spaces(problems)
 arithmetic_arranger(problems)
+
+
+# create a list of letters
+# my_list = ["blue", "red", "green", "orange", "yellow", "purple"]
+
+# for index, value in enumerate(my_list):
+#     # if index is even or the length of the value is less than 5
+#     # replace the value with an asterisk
+#     if index % 2 == 0 or len(value) < 5:
+#         my_list[index] = "*"
+
+# print(my_list)
+            
+
+# print(operands_list)
+# print(operands_list_digits)
+# print(operands_max)
+    
 
 # print(f'\n{arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])}')
