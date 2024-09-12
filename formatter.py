@@ -55,12 +55,6 @@ def arithmetic_arranger(problems, show_answers=False):
     operator_check(problems)    # rewrite this one
 
 
-    # digit_count = len(operands_list[0][0]) + len(operands_list[0][1])
-    # for i in operands_list:
-    # line1 = '{:>9}    {:>8}\n'.format(operands_list[0][0], operands_list[1][0])
-    # line2 = '{:>8}    {:>8}\n'.format(operands_list[0][1], operands_list[1][1])
-    # print(line1, line2)
-
 
     problem_list = get_operands(problems)
     operands_list = get_operands(problems)  # duplicate naming
@@ -78,7 +72,43 @@ def arithmetic_arranger(problems, show_answers=False):
         problem_list[index].append(operands_max[index])
 
     operand_length_check(operands_list)
-    # print(problem_list)   
+ 
+    # this prints the first equation in the correct format
+    line1 = '{line1: >{padding}}'.format(line1 = problem_list[0][0], padding = problem_list[0][3]+2)
+    operator = problem_list[0][1]
+
+    line2 = '{operator:}'.format(operator = problem_list[0][1]) \
+        + '{operand2: >{padding}}'.format(operand2 = problem_list[0][2], padding = problem_list[0][3]+1)
+
+    bottom_line = ('-' * int(problem_list[0][3] + 2))
+    
+    line3 = f'{bottom_line}' + (' ' *4) + f'{bottom_line}'
+
+    print(line1) 
+    print(line2)
+    print(line3)
+    
+    top_row = []
+    line1 = ''
+    bottom_lines = ''
+    paddington = ''
+    index = 0
+    for i in problem_list:
+        top_row.append(i[0])
+        paddington = (len(i[0]))
+        if index == 0:
+            line1 += f'{i[0]}' + (' ' * (i[3] + 2))
+        else: 
+            line1 += ' ' * paddington + f'{i[0]}' #+ (' ' * (i[3] + 2))        
+        bottom_lines += ('-' * (i[3] + 2) + (' ' * 4))
+        # print((i[3] + 6) - len(str(i[0])), padding)
+            
+
+    print(top_row)
+    print(line1)
+    # print(bottom_lines)
+    
+    
     # return problems
 
 problems = ["32 + 698", "3801 - 2", "45 + 43", "123 + 49"]
@@ -86,24 +116,6 @@ problems = ["32 + 698", "3801 - 2", "45 + 43", "123 + 49"]
 # number_of_problems(problems)
 # operator_check(problems)
 # remove_spaces(problems)
-arithmetic_arranger(problems)
-
-
-# create a list of letters
-# my_list = ["blue", "red", "green", "orange", "yellow", "purple"]
-
-# for index, value in enumerate(my_list):
-#     # if index is even or the length of the value is less than 5
-#     # replace the value with an asterisk
-#     if index % 2 == 0 or len(value) < 5:
-#         my_list[index] = "*"
-
-# print(my_list)
-            
-
-# print(operands_list)
-# print(operands_list_digits)
-# print(operands_max)
-    
+arithmetic_arranger(problems)    
 
 # print(f'\n{arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])}')
